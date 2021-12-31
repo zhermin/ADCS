@@ -1,0 +1,1 @@
+"%~dp0\..\python\python-3.8.8.amd64\python.exe" main.py

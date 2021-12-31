@@ -1,0 +1,84 @@
+no. pics collected
+- 5755 initial (bs/en) : 2264 en/3491 bs (54 wafers)
+  ~ 54 wafers 1GB incl. ET = 2 lots 1GB for BE for 3 mths
+  ~ assume 1 lot / day >> 30 lots / mth >> 180 lots / 6 mths
+  ~ 200 lots / 6 mths = 100GB
+- 2574 en 22sep - 5oct (54 wafers)
+- 8 en test
+
+cp-19oct (CHIPTEST) = 130 bs/256 total
+
+---
+
+[/] BE_ENG (16 sep): 578 bs, 20 wafers w/ KLA
+[/] BE_NEW (22sep - 29nov): 4339 bs, 76 wafers w/ KLA (dupe removed)
+  >> 21 unique wafer lots
+  >> -2 wafers / 202 bs due to error
+  >> -1 wafer / -81 bs duplicated BESUA509
+  >>> 4056 bs
+
+[/] trainval : 3491 bs ONLY w/ KLA
+- jul = 17 wafers
+- aug = 56 wafers
+- sep = 28 wafers
+-- total = 101 wafers
+[/] cp-19oct : 130 bs w/ KLA (CHIPTEST)
+
+---
+
+chipping ONLY
+- cp-22sep = 2574 en (no KLA since only saved en imgs)
+- cp-28oct = 1369 en (^)
+
+---
+
+mem usage
+- 54 wafers trainval (3 mths)
+  ~ 1GB incl. ET = 2 lots 1GB for BE for 3 mths
+  ~ assume 1 lot / day >> 30 lots / mth >> 180 lots / 6 mths
+  ~ 200 lots / 6 mths = 100GB
+
+- FS ~ 120-150kb ~ 150kb avg
+- BS ~ 20-50kb ~ 50kb avg
+- EN ~ 10-20kb ~ 20kb avg
+- ET ~ 50-120kb ~ 100kb avg
+
+---
+
+2 yrs
+800MB - 1.6GB ~ 1GB
+28.8TB ~ 60000 wafers/mth = 2400 lots/mth = 80 wafers lots/day
+510GB ~ 1yr FS img
+
+1 lot = 1 GB = 15-20mins (BE) = 216 images
+5400 imgs = 1 lot = *2 = 10800 imgs per 20mins
+
+2 yrs 
+
+16GB
+
+---
+
+trainval
+none - 2959*0.1 > 240:60
+chipping - 38*8 > 30:8 >> 30*8=240:8
+scratch - 197*1.5 > 158:39 >> 158*1.5=240:39
+stain - 313*1 > 240:60
+whitedot - 61*5 > 49:12 >> 49*5=240:12
+
+~2mins for 7k imgs
+1. 97.23% 189/6631//6820
+2. 94.46% 378/6442//6820
+3. 95.31% 320/6500//6820
+
+--- RESULTS ---
+val_acc = 97.77% (4/175//179)
+
+train_acc = 99.92% (1/1199//1200)
+
+Found 3124 images belonging to 5 classes.
+test_acc = 96.22% (118/3006//3124)
+
+---
+
+BE_ENG 20 wafer inference = 1min (only BS imgs)

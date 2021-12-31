@@ -1,0 +1,33 @@
+BATCH_SIZE: 8
+CONF_THRESHOLD: 95
+adc_drive_new: C:/Users/ZM/Desktop/ssmc-infrastructure/data (pls rename)/new (pls
+  rename)
+adc_drive_old: C:/Users/ZM/Desktop/ssmc-infrastructure/data (pls rename)/old (pls
+  rename)
+adcs_mode: PRODUCTION
+bs_defect_mapping:
+  aok: 0
+  chipping: 188
+  scratch: 190
+  stain: 195
+  whitedot: 196
+bs_model: backside_22Dec2021-1753_97.15%.h5
+dense_layer_size: 16
+dense_layers: 1
+dropout: 0.2
+en_defect_mapping:
+  aok: 0
+  chipping: 189
+en_model: edgenormal_23Dec2021-2004_99.26%.h5
+k_drive: C:/Users/ZM/Desktop/ssmc-infrastructure/K drive
+patience: 5
+pause_if_kla: 0
+pause_if_no_kla: 30
+pause_to_find_imgs: 5
+test_model: backside_22Dec2021-1753_97.15%.h5
+times_to_find_imgs: 3
+training_mode: true
+training_n: 300
+training_runs: 1
+training_saving_threshold: 96
+training_subdir: BACKSIDE

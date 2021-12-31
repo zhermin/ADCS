@@ -1,0 +1,144 @@
+toask
+---
+[/] time taken for each wafer lot (25), full insp
+  :: fs 30mins 1 lot
+  :: fbe 5mins
+[/] check RAM of personal PCs and AXi machine PCs?? :: 8GB
+[X] KLA file extra 2 results per row, recipe affecting output/formatting, additional rows, extra 4 columns eg. cluster
+[/] what is defectrecordspec :: no. cols
+[/] chip/no chip CLASSNUMBER
+
+todo
+// CLI only, single-threaded sequential background process
+---
+[/] auto-restarts on error :: only shuts down if specified; if error, retries after some time
+[/] only move KLA file after fs>bs>en (if found)
+[/] backside
+[/] debug.log save/overwrite
+[/] results appending with datetime
+[/] ocr update
+[/] config.?? :: settings.yaml
+[/] document frontside scans incorrectly tagged as bs (56 => 174) :: seems to be incorrectly loaded wafers
+
+[/] trainer.py
+[/] move to old folder, sort in FBE folders and predicted classes :: to unsorted / unclassified folders in old
+[/] extract wafer maps :: change to 172
+[/] skip BE/FS inference if no be_/fs_wafers found
+
+[/] load model outside of predictor class
+[/] reload model only if settings name change
+[/] lower pauses :: dont pause if all imgs found
+[/] no logging when no kla / log once
+[/] remove psutil
+[/] pep8 styling
+
+[/] docstrings
+[X] assert tests :: no time for tests
+[X] tensorboard :: aint nobody gon use this anyway
+[X] top2 bs acc (scratch/whitedot similar) :: unnecessary
+
+[-] mem usage: fbe_per_wafer x no_wafers_per_day x 6mths
+[-] check RAM usage to load edge model :: ~800MB, 1GB max, avg 400+MB, sometimes 200-300 after a while
+
+[/] !!!Tkinter!!!
+  [/] Figma Mockup
+  [/] Fix code exit when run :: raise threading exception + threading event .set()
+  [X] Save to settings.yaml before start otherwise variables not read :: not needed
+  [/] Fix logging to console, fix main logging here :: pass in queue.Queue() and setup QueueHandler
+  [/] Log training/testing epochs :: inherit keras Callback class
+  [/] Production while loop to tkinter after/wait :: threading event wait (after is for GUI updates)
+  [/] Logo
+  [/] Documentation
+  [/] Figma Demo Record
+
+[X] pyinstaller --noconsole :: exe has too many obscure errors, used vbs/bat scripts instead
+[/] presentation
+[ ] report
+[ ] update docs
+  [/] remove requirements.txt
+  [/] dependencies == 3.8.8 python + link
+  [/] "installing" site-packages into local python ver
+  [/] AppData folder requires hidden folders to be viewed
+  [/] python installer options: dont install for all users + add to PATH
+  [ ] operator's guide (incl. csv reading)
+  [ ] 'table' guide for training samples
+  [ ] slideshow instructions???
+  [ ] add slide/rpt links
+
+[/] on error still 'running', btn=START, even though 'Production Stopped' (remove 'running')
+[/] chg adcs path to be Path.cwd() minimally
+  [/] paths to have (please check/change except for Path to ADCS)
+[/] change batch command to just use `python run.bat` (assumes python is installed)
+[X] remove github download zip '-main' suffix :: not possible
+
+[/] unsorted folders, BE/FS folder :: .mkdir(parents=True, ) / del kla file after running on error because edited
+[/] init all folders :: generate_folder_structure.py in notes
+[/] disable user inputs once started :: get settings_ui children
+[/] batch automatation to move site-packages to python38 folder (%username%)
+[/] just commit site-packages folder
+[/] edit figma + demo
+[/] init old folders when run
+[ ] check python local installation
+
+==============
+
+KLA decode
+---
+19: FS #17
+DEFECTID XREL YREL XINDEX YINDEX XSIZE YSIZE DEFECTAREA DSIZE CLASSNUMBER TEST CLUSTERNUMBER ROUGHBINNUMBER FINEBINNUMBER REVIEWSAMPLE IMAGECOUNT IMAGELIST
+
+16: BS #14
+DEFECTID XREL YREL XINDEX YINDEX XSIZE YSIZE DEFECTAREA DSIZE CLASSNUMBER TEST CLUSTERNUMBER [...3] IMAGECOUNT IMAGELIST
+
+15: EN #13
+DEFECTID XREL YREL XINDEX YINDEX XSIZE YSIZE DEFECTAREA DSIZE CLASSNUMBER TEST [...4] IMAGECOUNT IMAGELIST
+
+extra
+1. CLUSTERNUMBER (FS/BS)
+2. ROUGHBINNUMBER
+3. FINEBINNUMBER
+4. REVIEWSAMPLE
+
+notes
+- w/FS: X/YREL used eg. 19 1, BE always 0 0
+- only filename + classnumber useful
+- trim excess of 2 DefectList tailend data (1 0)
+
+#FS; if len(DefectRecordSpec) == 1
+DefectRecordSpec [num_cols] [cols];
+{
+  TiffFileName [filename.jpg];
+  DefectList
+  [num_cols+2]; // move up
+}
+
+#BE; else
+DefectRecordSpec [num_cols] [cols];
+DefectList; // remove
+{
+  TiffFileName [filename.jpg];
+  DefectRecordSpec [num_cols] [cols]; // remove
+  DefectList
+   [num_cols+2]; // move up
+}
+
+### STANDARDISE ###
+DefectRecordSpec [num_cols] [cols];
+{
+  TiffFileName [filename.jpg];
+  DefectList [num_cols+2];
+}
+
+#pseudocode
+if len(DefectRecordSpec) == 1: // FS
+  get rows {
+    start: first occurence of DefectRecordSpec (row 0)
+    then: row 1-3 (per 3 rows)
+    end: every 
+  }
+else:
+  strip first left space from 4th row
+  remove row with DefectRecordSpec (2nd)
+append every 3rd row to 2nd row // FBE
+
+#pseudocode v2 // only modify CLASSNUMBER (col 10)

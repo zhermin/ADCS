@@ -1,0 +1,80 @@
+#--- Description ---#
+# Note: Lines with # in front are comments
+# This is a .yaml file for users to easily change settings
+#   for the code such as changing modes, file paths, 
+#   whether to turn off predictions for front/back/edge, etc.
+
+#--- Full Syntax of YAML Files ---#
+# https://en.wikipedia.org/wiki/YAML#Syntax
+
+#--- Disclaimer ---#
+# Settings and options are case-sensitive!
+
+#--- How To Use ---#
+# Set adcs_mode to 'production' for prediction and classification. 
+# Set adcs_mode to train an F/B/E model based on images found 
+# in the adc_drive_old folder. 
+# Set adcs_submode to BE for back and edge classification, FS for frontside. 
+# BE and FS classification won't happen at the same time since FS AXI scans are very slow 
+# and FS logic is not implemented yet as well. 
+
+#----------------------------------------------------------#
+
+#--- ADCS Mode ---#
+adcs_mode: TRAINING # options: PRODUCTION / TRAINING, default=PRODUCTION
+
+
+#--- Folder Full Paths ---#
+adc_drive_new: C:\Users\ZM\Desktop\ssmc-infrastructure\ADC drive\data\new
+adc_drive_old: C:\Users\ZM\Desktop\ssmc-infrastructure\ADC drive\data\old
+k_drive: C:\Users\ZM\Desktop\ssmc-infrastructure\K drive
+
+
+#--- Pause Times ---#
+pause_if_no_kla: 30 # long pause time in seconds if no KLA files found, default=30
+pause_if_kla: 0 # short pause time in seconds if there are KLA files, default=5
+
+times_to_find_imgs: 3 # no. times to try and find images referenced in KLA file, default=5
+pause_to_find_imgs: 5 # pause time in seconds to try and find the images in KLA file, default=10
+
+
+#--- Model Configs ---#
+BATCH_SIZE: 8 # no. images to classify at a time, higher requires more RAM, default=16
+CONF_THRESHOLD: 95 # min. % confidence threshold (0%-100%), default=95
+
+
+#--- BS Predictor Configs ---#
+# BS Original Code: [174] AVI_Backside Defect
+bs_model: backside_8Dec2021-1501_96.80%.h5 # leave empty to use latest model
+bs_defect_mapping: # correct KLA defect codes for BS defects
+    aok: 0 # Unclassified
+    chipping: 188 # OQA_Edge Chipping (BS)
+    scratch: 190 # OQA_BS-Scratch (Cat Claw)
+    stain: 195 # OQA_BS-Stain
+    whitedot: 196 # OQA_BS-White Dot
+
+#--- EN Predictor Configs ---#
+# EN Original Code: [173] AVI_Bevel Defect
+en_model: edgenormal_8Nov2021-1333_99.35%.h5 # leave empty to use latest model
+en_defect_mapping: # correct KLA defect codes for EN defects
+    aok: 0 # Unclassified
+    chipping: 189 # OQA_Edge Chipping (FS)
+
+#--- FS Predictor Configs ---#
+# FS Original Code: [056] AVI Def
+# Unimplemented
+
+
+#--- BE Trainer Configs ---#
+training_runs: 5 # no. times to repeat training to get averaged accuracy
+training_subdir: BACKSIDE # options: BACKSIDE / EDGENORMAL
+training_n: 300 # balanced number of samples per class, default=300
+training_saving_threshold: 96.5 # min. % accuracy to save model (0%-100%), default=95
+
+dense_layers: # no. of dense layers after the layers of the pretrained model (default=1)
+dense_layer_size: # size of each dense layer, bigger size results in a bigger .h5 model (default=16)
+dropout: # % of weights to drop randomly to mitigate overfitting (default=0.2)
+patience: # no. of epochs to wait before early stopping and take best model (default=10)
+
+training_mode: true # false if want to test specific model, default=true
+test_model: backside_8Dec2021-1501_96.80%.h5 # if training_mode: false, default=empty
