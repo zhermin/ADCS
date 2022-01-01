@@ -308,7 +308,7 @@ class KlaReader:
             else:
                 if wafer.classnumber == '56': # Frontside images will be in its own folder
                     defect_folder = move_destination
-                else:
+                else: # The rest will be in its own CLASSNUMBER folder inside /unclassified
                     defect_folder = Path.joinpath(move_destination, wafer.classnumber)
 
             defect_folder.mkdir(parents=True, exist_ok=True)

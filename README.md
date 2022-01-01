@@ -4,13 +4,12 @@
     - [Summary](#summary)
     - [Operator's Guide](#operators-guide)
     - [Demo](#demo)
-3. [Setup](#setup)
-4. [System Design](#system-design)
+3. [System Design](#system-design)
     - [System Logic](#system-logic)
     - [Training Mode](#training-mode)
     - [Production System Flow](#production-system-flow)
     - [Folder Structure (Critical Files Only)](#folder-structure-critical-files-only)
-5. [Full Program Settings](#full-program-settings)
+4. [Full Program Settings](#full-program-settings)
     - [Understanding the Descriptions](#understanding-the-descriptions)
     - [All Available Settings](#all-available-settings)
         - [ADCS Mode](#adcs-mode)
@@ -24,7 +23,7 @@
             - [Basic Trainer Configs](#basic-trainer-configs)
             - [Advanced Hyperparameter Configs](#advanced-hyperparameter-configs)
             - [Custom Testing Mode](#custom-testing-mode)
-6. [Abbreviations Guide](#abbreviations-guide)
+5. [Abbreviations Guide](#abbreviations-guide)
 
 ---
 
@@ -64,7 +63,7 @@ For example, if the chipping class has only 30 images while the stain, scratch a
 
 Hence, it heavily depends on the number of samples you have for training. As more images get sorted into the trainval folder for future retraining, this value should increase over time, otherwise you are not fully utilising the images to train the models. 
 
-| eg. | aok  | chipping | scratch | stain | whitedot | # range # | # INPUT # |
+| eg. | aok  | chipping | scratch | stain | whitedot | # RANGE # | # INPUT # |
 |-----|------|----------|---------|-------|----------|-----------|-----------|
 | 1.  | 400  | 10       | 20      | 40    | 20       | 40-400    | 100       |
 | 2.  | 1000 | 30       | 100     | 150   | 200      | 200-1000  | 300       |
