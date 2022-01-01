@@ -134,6 +134,8 @@ class Production(threading.Thread):
 
                 for submode in (bs_subdir, en_subdir, fs_subdir):
                     submode_path = Path.joinpath(adc_drive_old, submode)
+                    if submode == 'frontside':
+                        break
                     for subdir in ('test', 'trainval', 'unsorted'):
                         subdir_path = Path.joinpath(submode_path, subdir)
                         subdir_path.mkdir(parents=True, exist_ok=True)
@@ -145,8 +147,6 @@ class Production(threading.Thread):
                             for defect in self.settings['en_defect_mapping'].keys():
                                 defect_path = Path.joinpath(subdir_path, defect)
                                 defect_path.mkdir(parents=True, exist_ok=True)
-                        elif submode == 'frontside':
-                            ...
 
                 unclassified_path = Path.joinpath(adc_drive_old, 'unclassified')
                 unclassified_path.mkdir(parents=True, exist_ok=True)
@@ -262,29 +262,31 @@ class Production(threading.Thread):
                 #------------------- [TODO] Frontside Pipeline (Incomplete) -------------------#
                 #------------------------------------------------------------------------------#
 
-                if False and any(wafer.exists for wafer in reader.fs_wafers):
+                if any(wafer.exists for wafer in reader.fs_wafers):
 
-                    logging.info(f'{fs_subdir.title()} Classification: {len(reader.fs_wafers)} images')
+                    logging.info(f'{fs_subdir.title()} IGNORED: {len(reader.fs_wafers)} images')
 
-                    if current_fs_model != self.settings['fs_model']:
-                        current_fs_model = self.settings['fs_model']
-                        fs_model = load_trained_model(
-                            subdir=fs_subdir,
-                            model_name=current_fs_model,
-                        )
+                    # if current_fs_model != self.settings['fs_model']:
+                    #     current_fs_model = self.settings['fs_model']
+                    #     fs_model = load_trained_model(
+                    #         ...
+                    #     )
 
-                    logging.info(f'[{fs_subdir.upper()}] Model: {current_fs_model}')
+                    # logging.info(f'[{fs_subdir.upper()}] Model: {current_fs_model}')
 
-                    fs_predictor = Predictor(
-                        ...
-                    )
+                    # fs_predictor = Predictor(
+                    #     ...
+                    # )
 
-                    fs_predictor.load_generator()
-                    fs_predictor.predict_imgs(overwrite_results=False)
+                    # fs_predictor.load_generator()
+                    # fs_predictor.predict_imgs(overwrite_results=False)
 
-                    reader.fs_wafers = reader.edit_kla(reader.fs_wafers, fs_predictor.df['new_defect_code'])
+                    # reader.fs_wafers = reader.edit_kla(reader.fs_wafers, fs_predictor.df['new_defect_code'])
                     reader.fs_wafers = reader.move_predicted_lots(
-                        ...
+                        wafers=reader.fs_wafers,
+                        source=adc_drive_new,
+                        copy_destination=k_drive,
+                        move_destination=Path.joinpath(adc_drive_old, fs_subdir),
                     )
 
                 #-------------------------- Move Unclassified Wafers --------------------------#

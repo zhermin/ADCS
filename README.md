@@ -2,6 +2,7 @@
 1. [Table of Contents](#table-of-contents)
 2. [ADCS Overview](#adcs-overview)
     - [Summary](#summary)
+    - [Operator's Guide](#operators-guide)
     - [Demo](#demo)
 3. [Setup](#setup)
 4. [System Design](#system-design)
@@ -34,27 +35,15 @@ By: `Tam Zher Min`
 Email: `tamzhermin@gmail.com`
 
 ## Summary
-This is an indepently architected sequential system (similar to AXI recipes), threaded alongside a Tkinter GUI. It can automatically classify and sort wafer image scans locally for SSMC and can also train new machine learning models. Total ~2000 LOC (lines of code). 
+This is an indepently architected sequential system (similar to AXI recipes), threaded alongside a Tkinter GUI. It can automatically classify and sort wafer image scans locally for SSMC and can also train new machine learning models. Total ~2000 LOC (lines of code). Run the `ADCS.vbs` file to start. 
+
+## Operator's Guide
+Slides for operators can be found in the `/ADCS/notes/guides` folder or through this [link](/notes/guides/OperatorGuide.pdf "Operator's Guide"). This guide is for operators looking to check the wafer lots with defects and for how to sort the wafer scans after they are classified by the ADCS. 
 
 ## Demo
 [Figma Design Mockup](https://www.figma.com/proto/ZTgF32w2j9suCelMuveQil/SSMC-ADCS-GUI?node-id=3%3A370&scaling=contain&page-id=3%3A167&starting-point-node-id=3%3A370 "Figma Design Mockup")
 
 ![ADCS Demo](https://github.com/zhermin/ssmc/blob/master/demo/ADCS%20Demo/demo.gif "ADCS Demo")
-
----
-
-# Setup
-1. Click on the green button near the top of this [GitHub page](https://github.com/zhermin/ADCS "The ADCS Repo") that says "Code" and select "Download ZIP"
-2. Extract the contents of the zip file somewhere convenient
-3. Download this extra file called [_pywrap_tensorflow_internal.pyd](https://github.com/zhermin/ADCS/blob/main/site-packages/tensorflow/python/_pywrap_tensorflow_internal.pyd "Extra File from Github")
-4. Install Python using the installer `python-3.8.8-amd64.exe` found inside the ADCS/assets folder or from online [here](https://www.python.org/ftp/python/3.8.8/python-3.8.8-amd64.exe "Download Python 3.8.8")
-   1. Untick "Install launcher for all users (recommended)"
-   2. Tick "Add to PATH"
-   3. Do a Normal Installation
-5. Once everything is downloaded, move and replace the extra file `_pywrap_tensorflow_internal.pyd` into the ADCS' subfolder at `ADCS-main/site-packages/tensorflow/python`
-6. Go back to the `ADCS-main` folder and run `copy-site-packages.bat`
-7. After the script has finished, run `ADCS.vbs` (VBScript Script File)
-8. Once the ADCS window appears, remember to change the folder locations for `Path to New Images`, `Path to Old Images` and `Path to K Drive`
 
 ---
 
@@ -64,16 +53,22 @@ This is a full-fledged system that I planned and wrote every single line myself 
 
 The system also needs to parse through a weird file format to extract relevant information. This file is also required to be edited because SSMC's software can only understand this format. The way it is parsed is a little hacky and not 100% fool-proof but because it does not have a fixed format, there are no easy ways around it. 
 
-The Tkinter GUI was very challenging to code because UI systems are usually very finnicky. However, I managed to make it work, allowing users to change settings and logging to the GUI and using threading to run the production or training mode separate from the main Tkinter GUI thread. 
+The Tkinter GUI was very challenging to code because UI systems are usually very finnicky. However, I managed to make it work, allowing users to change settings and logging to the GUI with a queue and using threading to run the production or training mode separate from the main Tkinter GUI thread. 
 
 All system design logic, flow, structure and considerations were by me — good in that I managed to produce something of this scale alone, bad in that I am not sure if these are the best practices or if I had missed out on any glaring problems; but I did what I could. 
 
 ## Training Mode
 Take note, for training mode, the "Balanced no. of Samples per Class" value is important. You should derive this number by looking at the number of images you have for each class. It should be more than the number of samples in each class but lower than the most majority class. 
 
-For example, if the chipping class has only 30 images while the stain, scratch and whitedot classes have 100 images each and the AOK class has 1000 images, then you should pick between a minimum of 100 to a maximum of 1000. A good number might be 300 for this case. 
+For example, if the chipping class has only 30 images while the stain, scratch and whitedot classes have 100 images each and the AOK class has 1000 images, then you should pick between a minimum of 100 to a maximum of 1000. A good number might be 300 for this case. You can refer to the table below to get a sensing. 
 
 Hence, it heavily depends on the number of samples you have for training. As more images get sorted into the trainval folder for future retraining, this value should increase over time, otherwise you are not fully utilising the images to train the models. 
+
+| eg. | aok  | chipping | scratch | stain | whitedot | # range # | # INPUT # |
+|-----|------|----------|---------|-------|----------|-----------|-----------|
+| 1.  | 400  | 10       | 20      | 40    | 20       | 40-400    | 100       |
+| 2.  | 1000 | 30       | 100     | 150   | 200      | 200-1000  | 300       |
+| 3.  | 800  | 100      | 200     | 150   | 75       | 200-800   | 400       |
 
 ## Production System Flow
 1. AXI scans wafers and generates FBE images
@@ -100,23 +95,23 @@ Hence, it heavily depends on the number of samples you have for training. As mor
 ├── /data                   // stores all KLA files and images from AXI
 │   ├── /new                // unpredicted lots
 │   └── /old                // predicted lots for backup and retraining
-│       ├── /backside       // test/trainval/unsorted folders should have folders for all 5 classes
-│       │    ├── /test      // manually sorted images for testing to simulate new images
-│       │    ├── /trainval  // manually sorted images for training and validation
-│       │    └── /unsorted  // predicted images to be sorted into /trainval to avoid poor retraining
+│       ├── /backside       // test/trainval/unsorted folders will have folders for all 5 classes
+│       │    ├── /test      // manually sorted images for model testing to simulate new images
+│       │    ├── /trainval  // manually sorted images for model training and validation
+│       │    └── /unsorted  // predicted images to be sorted into /trainval for future retraining
 │       │        ├── /aok
 │       │        ├── /chipping
 │       │        ├── /scratch
 │       │        ├── /stain
 │       │        └── /whitedot
-│       ├── /edgenormal     // test/trainval/unsorted folders should have folders for all 2 classes
+│       ├── /edgenormal     // test/trainval/unsorted folders will have folders for all 2 classes
 │       │    ├── /test
 │       │    ├── /trainval
 │       │    └── /unsorted
 │       │        ├── /aok
 │       │        └── /chipping
 │       ├── /frontside      // any frontside scans found will be backed up here
-│       └── /unclassified   // all other defect codes ignored, eg. edgetop (176) and wafer maps (172)
+│       └── /unclassified   // all ignored defect codes, eg. edgetop (176) and wafer maps (172)
 │
 └── /ADCS                   // the Automatic Defect Classification System
     ├── /assets             // miscellaneous files
@@ -137,16 +132,15 @@ Hence, it heavily depends on the number of samples you have for training. As mor
     │       ├── /edgenormal
     │       └── /frontside
     ├── /src                // helper modules for ADCS in OOP style
-    │   ├── adcs_modes.py   // script file with 2 modes depending on GUI or settings.yaml config
+    │   ├── adcs_modes.py   // script file with the 2 modes chosen in the GUI
     │   ├── be_trainer.py   // model training code for backside and edgenormal models
-    │   ├── kla_reader.py   // code to parse and edit KLA files and to store Wafer data structures
+    │   ├── kla_reader.py   // code to parse and edit KLA files
     │   └── predictor.py    // model prediction code generic for FBE models
     │
     ├── *ADCS.vbs           // starts the ADCS app
-    ├── copy-site-packages.bat // "installs" necessary python packages into local python directory
     ├── debug.log           // log file of the latest run of main.py for debugging
-    ├── main.py             // python script to start the GUI and allow users to START/STOP the ADCS
-    ├── README.md           // this instructions text file you're reading; open in notepad
+    ├── main.py             // python script of the ADCS GUI to START/STOP
+    ├── README.md           // this user guide text file you're reading; open in notepad
     └── settings.yaml       // config file for users to easily change settings and modes
 ```
 

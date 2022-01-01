@@ -306,7 +306,10 @@ class KlaReader:
                 defect_mapping_inv = {v: k for k, v in defect_mapping.items()}
                 defect_folder = Path.joinpath(move_destination, defect_mapping_inv.get(int(wafer.classnumber)))
             else:
-                defect_folder = Path.joinpath(move_destination, wafer.classnumber)
+                if wafer.classnumber == '56': # Frontside images will be in its own folder
+                    defect_folder = move_destination
+                else:
+                    defect_folder = Path.joinpath(move_destination, wafer.classnumber)
 
             defect_folder.mkdir(parents=True, exist_ok=True)
             shutil.move(str(file_to_move), str(Path.joinpath(defect_folder, wafer.filename)))

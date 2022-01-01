@@ -54,16 +54,16 @@ todo
 [X] pyinstaller --noconsole :: exe has too many obscure errors, used vbs/bat scripts instead
 [/] presentation
 [ ] report
-[ ] update docs
+[/] update docs
   [/] remove requirements.txt
   [/] dependencies == 3.8.8 python + link
   [/] "installing" site-packages into local python ver
   [/] AppData folder requires hidden folders to be viewed
   [/] python installer options: dont install for all users + add to PATH
-  [ ] operator's guide (incl. csv reading)
-  [ ] 'table' guide for training samples
-  [ ] slideshow instructions???
-  [ ] add slide/rpt links
+  [/] operator's guide (incl. csv reading)
+  [/] 'table' guide for training samples
+  [/] slideshow instructions???
+  [/] add slide/rpt links
 
 [/] on error still 'running', btn=START, even though 'Production Stopped' (remove 'running')
 [/] chg adcs path to be Path.cwd() minimally
@@ -78,7 +78,7 @@ todo
 [/] just commit site-packages folder
 [/] edit figma + demo
 [/] init old folders when run
-[ ] check python local installation
+[/] check python local installation :: WinPython https://sourceforge.net/projects/winpython/files/WinPython_3.8/3.8.8.0/
 
 ==============
 

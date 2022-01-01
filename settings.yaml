@@ -1,9 +1,7 @@
 BATCH_SIZE: 8
 CONF_THRESHOLD: 95
-adc_drive_new: C:/Users/ZM/Desktop/ssmc-infrastructure/data (pls rename)/new (pls
-  rename)
-adc_drive_old: C:/Users/ZM/Desktop/ssmc-infrastructure/data (pls rename)/old (pls
-  rename)
+adc_drive_new: C:/Users/ZM/Desktop/ssmc-infrastructure/data/new
+adc_drive_old: C:/Users/ZM/Desktop/ssmc-infrastructure/data/old
 adcs_mode: PRODUCTION
 bs_defect_mapping:
   aok: 0
@@ -19,7 +17,7 @@ en_defect_mapping:
   aok: 0
   chipping: 189
 en_model: edgenormal_23Dec2021-2004_99.26%.h5
-k_drive: C:/Users/ZM/Desktop/ssmc-infrastructure/K drive
+k_drive: C:/Users/ZM/Desktop/ssmc-infrastructure/data/k drive
 patience: 5
 pause_if_kla: 0
 pause_if_no_kla: 30
