@@ -1,15 +1,14 @@
 # Table of Contents
-1. [Table of Contents](#table-of-contents)
-2. [ADCS Overview](#adcs-overview)
+1. [ADCS Overview](#adcs-overview)
     - [Summary](#summary)
     - [Operator's Guide](#operators-guide)
     - [Demo](#demo)
-3. [System Design](#system-design)
+2. [System Design](#system-design)
     - [System Logic](#system-logic)
     - [Training Mode](#training-mode)
     - [Production System Flow](#production-system-flow)
     - [Folder Structure (Critical Files Only)](#folder-structure-critical-files-only)
-4. [Full Program Settings](#full-program-settings)
+3. [Full Program Settings](#full-program-settings)
     - [Understanding the Descriptions](#understanding-the-descriptions)
     - [All Available Settings](#all-available-settings)
         - [ADCS Mode](#adcs-mode)
@@ -23,7 +22,7 @@
             - [Basic Trainer Configs](#basic-trainer-configs)
             - [Advanced Hyperparameter Configs](#advanced-hyperparameter-configs)
             - [Custom Testing Mode](#custom-testing-mode)
-5. [Abbreviations Guide](#abbreviations-guide)
+4. [Abbreviations Guide](#abbreviations-guide)
 
 ---
 
