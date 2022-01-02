@@ -1,0 +1,14 @@
+[INFO] 02-Jan-2022 15:16:18 - [Automatic Defect Classification System]
+[INFO] 02-Jan-2022 15:16:18 - // By: Tam Zher Min
+[INFO] 02-Jan-2022 15:16:18 - // User Guide: https://github.com/zhermin/ADCS
+[INFO] 02-Jan-2022 15:16:18 - Click START to begin selected mode
+[WARNING] 02-Jan-2022 15:16:19 - Production Started
+[INFO] 02-Jan-2022 15:16:35 - [BACKSIDE] Model Loaded:
+backside_22Dec2021-1753_97.15%.h5
+[INFO] 02-Jan-2022 15:16:37 - [EDGENORMAL] Model Loaded:
+edgenormal_23Dec2021-2004_99.26%.h5
+[INFO] 02-Jan-2022 15:16:38 - All Models Ready
+[INFO] 02-Jan-2022 15:16:38 - --------------------------------------------------
+[INFO] 02-Jan-2022 15:16:38 - No KLA files found, checking every 30 seconds...
+[WARNING] 02-Jan-2022 15:16:44 - Production Stopped
+[INFO] 02-Jan-2022 15:16:45 - Safely shutting down ADCS...

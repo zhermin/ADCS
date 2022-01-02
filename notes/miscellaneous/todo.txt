@@ -53,7 +53,6 @@ todo
 
 [X] pyinstaller --noconsole :: exe has too many obscure errors, used vbs/bat scripts instead
 [/] presentation
-[ ] report
 [/] update docs
   [/] remove requirements.txt
   [/] dependencies == 3.8.8 python + link

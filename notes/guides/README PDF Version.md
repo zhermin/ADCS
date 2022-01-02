@@ -1,32 +1,3 @@
-# Table of Contents
-1. [Table of Contents](#table-of-contents)
-2. [ADCS Overview](#adcs-overview)
-    - [Summary](#summary)
-    - [Operator's Guide](#operators-guide)
-    - [Demo](#demo)
-3. [System Design](#system-design)
-    - [System Logic](#system-logic)
-    - [Training Mode](#training-mode)
-    - [Production System Flow](#production-system-flow)
-    - [Folder Structure (Critical Files Only)](#folder-structure-critical-files-only)
-4. [Full Program Settings](#full-program-settings)
-    - [Understanding the Descriptions](#understanding-the-descriptions)
-    - [All Available Settings](#all-available-settings)
-        - [ADCS Mode](#adcs-mode)
-        - [Folder Locations](#folder-locations)
-        - [Pause Times](#pause-times)
-        - [Model Configs](#model-configs)
-        - [BS Predictor Configs](#bs-predictor-configs)
-        - [EN Predictor Configs](#en-predictor-configs)
-        - [FS Predictor Configs](#fs-predictor-configs)
-        - [BE Trainer Configs](#be-trainer-configs)
-            - [Basic Trainer Configs](#basic-trainer-configs)
-            - [Advanced Hyperparameter Configs](#advanced-hyperparameter-configs)
-            - [Custom Testing Mode](#custom-testing-mode)
-5. [Abbreviations Guide](#abbreviations-guide)
-
----
-
 # ADCS Overview
 *Automatic Defect Classification System (ADCS) for FS, BS & EN Model Deployment*  
 
@@ -37,12 +8,7 @@ Email: `tamzhermin@gmail.com`
 This is an indepently architected sequential system (similar to AVI recipes), threaded alongside a Tkinter GUI. It can automatically classify and sort wafer image scans locally for SSMC and can also train new machine learning models. Total ~2000 LOC (lines of code). Run the `ADCS.vbs` file to start. 
 
 ## Operator's Guide
-Slides for operators can be found in the `/ADCS/notes/guides` folder or through this [link](/notes/guides/OperatorGuide.pdf "Operator's Guide"). This guide is for operators looking to check the wafer lots with defects and for how to sort the wafer scans after they are classified by the ADCS. 
-
-## Demo
-[Figma Design Mockup](https://www.figma.com/proto/ZTgF32w2j9suCelMuveQil/SSMC-ADCS-GUI?node-id=3%3A370&scaling=contain&page-id=3%3A167&starting-point-node-id=3%3A370 "Figma Design Mockup")
-
-![ADCS Demo](https://github.com/zhermin/ssmc/blob/master/demo/ADCS%20Demo/demo.gif "ADCS Demo")
+Slides for operators can be found in the `/ADCS/notes/guides` folder. This guide is for operators looking to check the wafer lots with defects and for how to sort the wafer scans after they are classified by the ADCS. 
 
 ---
 
@@ -63,26 +29,28 @@ For example, if the chipping class has only 30 images while the stain, scratch a
 
 Hence, it heavily depends on the number of samples you have for training. As more images get sorted into the trainval folder for future retraining, this value should increase over time, otherwise you are not fully utilising the images to train the models. 
 
-| eg. | aok  | chipping | scratch | stain | whitedot | # RANGE # | # INPUT # |
-|-----|------|----------|---------|-------|----------|-----------|-----------|
-| 1.  | 400  | 10       | 20      | 40    | 20       | 40-400    | 100       |
-| 2.  | 1000 | 30       | 100     | 150   | 200      | 200-1000  | 300       |
-| 3.  | 800  | 100      | 200     | 150   | 75       | 200-800   | 400       |
+| eg. | aok  | chipping | scratch | stain | whitedot |  RANGE   | # INPUT # |
+|-----|------|----------|---------|-------|----------|----------|-----------|
+| 1.  | 400  | 10       | 20      | 40    | 20       | 40-400   | 100       |
+| 2.  | 1000 | 30       | 100     | 150   | 200      | 200-1000 | 300       |
+| 3.  | 800  | 100      | 200     | 150   | 75       | 200-800  | 400       |
 
 ## Production System Flow
 1. AVI scans wafers and generates FBE images
-2. KLA files and images are fed into ADC drive's "new" directory
-3. ADCS continuously polls "new" directory for KLA files
+2. KLA files and images fed into ADC drive's "new" directory (dir)
+3. ADCS continuously polls "new" dir for KLA files
 4. If KLA files found, start model inference; else, poll again after some wait time
-5. Model Inference (Prediction / Classification)
+5. Model Inference
     1. Reads oldest KLA file and stores relevant information into "wafer" data structures
-    2. Checks if filenames referenced in KLA file can be found in the "new" directory
+    2. Checks if filenames referenced in KLA file can be found in the "new" dir
     3. If all found or after timeout, feed FS/BS/EN images into their respective models
     4. FBE models classify images and modify the KLA file's CLASSNUMBERs to the predictions
     5. Results will also be saved to CSV (Excel) files for future reference
     6. Move KLA file and images to ADC drive's "old" directory and also copy them to K drive
     7. Predicted files in "unsorted" folder require manual sorting for future retraining
 6. Repeat
+
+---
 
 ## Folder Structure (Critical Files Only)
 *Do follow this folder structure to ensure reproducibility*
@@ -143,7 +111,13 @@ Hence, it heavily depends on the number of samples you have for training. As mor
     └── README.pdf          // this user guide you're reading saved in PDF format
 ```
 
----
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 # Full Program Settings
 Below are the descriptions for all of the settings found in the settings.yaml file in the assets folder. They allow users to change advanced settings for the code outside of the GUI such as the delay times and training hyperparameters. 
@@ -201,6 +175,12 @@ BATCH_SIZE: (default=8)
 CONF_THRESHOLD: [0 - 100] (default=95)
     # min. % confidence threshold to clear to be considered confident
 ```
+
+<br>
+<br>
+<br>
+<br>
+<br>
 
 ### BS Predictor Configs
 *BS Original Code: [174] AVI_Backside Defect*
@@ -268,18 +248,18 @@ test_model: (default=empty)
 # Abbreviations Guide
 - SSMC: Systems on Silicon Manufacturing Company (TSMC & NXP JV)
 - Defect Classes (the other classes are self-explanatory)
-    - aok: ALL-OK, meaning a normal image with no defect (false positive / noise)
+    - aok: ALL-OK, meaning a normal image with no defect (false positive)
 - Domain
-    - AVI: Automated Vision Inspection
     - FS: Frontside
     - BE: Back & Edge (Backside + Edgenormal)
     - BS: Backside
     - EN: Edge Normal
     - ET: Edge Top (ignored)
     - FBE: Frontside-Backside-EdgeNormal
+    - AVI: Automated Vision Inspection
     - KLA: File format used by SSMC's infrastructure
 - System
-    - CNN: Convolutional Neural Network, the type of machine learning models used
+    - CNN: Convolutional Neural Network, the machine learning model used
     - CLI: Command Line Interface
     - GUI: Graphical User Interface
     - df: Dataframe, think of it as Excel but in code

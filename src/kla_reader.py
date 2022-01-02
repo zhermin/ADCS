@@ -180,7 +180,7 @@ class KlaReader:
         skip wafers that can't be found so the ADCS doesn't keep trying to find them.
 
         This function will also try as many times as retry_num and wait timeout
-        seconds before retrying just in case the AXI machine is still loading the 
+        seconds before retrying just in case the AVI machine is still loading the 
         images into the folder. Set these to higher values to ensure all images 
         are accounted for before classification but at the cost of a slower system. 
         """
@@ -308,7 +308,7 @@ class KlaReader:
             else:
                 if wafer.classnumber == '56': # Frontside images will be in its own folder
                     defect_folder = move_destination
-                else: # The rest will be in its own CLASSNUMBER folder inside /unclassified
+                else: # The rest will be in its own CLASSNUMBER folder inside /old/unclassified
                     defect_folder = Path.joinpath(move_destination, wafer.classnumber)
 
             defect_folder.mkdir(parents=True, exist_ok=True)

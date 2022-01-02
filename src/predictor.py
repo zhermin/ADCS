@@ -85,7 +85,7 @@ class Predictor:
             The correct defect_mapping, either bs_ or en_. 
             Set from settings.yaml file. 
         adc_drive_new (Path): 
-            Path where all new images from AXI are transferred to
+            Path where all new images from AVI are transferred to
         subdir (str): 
             Subdirectory, eg. backside or edgenormal since the
             correct images will be stored in the correct subdir. 

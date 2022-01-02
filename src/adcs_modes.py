@@ -34,10 +34,10 @@ class Production(threading.Thread):
     KLA files are needed to find the relevant images for the models and to allow 
     them to be edited before being sent to the K drive. 
 
-    Even though FS AXI scans are very slow, if we were to run a full inspection,
+    Even though FS AVI scans are very slow, if we were to run a full inspection,
     meaning Frontside, Backside and Edge recipes in one go, we cannot get
     around this FS-scan bottleneck. Hence, we just run everything sequentially 
-    similar to how recipes are done. 
+    similar to how the AVI recipes are done. 
 
     Because FS logic is not implemented yet, this system will only predict on
     back and edge scans while frontside scans will be untouched and moved into its
@@ -45,7 +45,7 @@ class Production(threading.Thread):
     in the future can just roughly follow the way I implemented for BE models for FS. 
 
     # System Flow
-    Refer to the "System Flow" section in the README.md document. 
+    Refer to the "System Flow" section in the README.pdf document. 
 
     Attributes:
         settings (dict):
@@ -192,13 +192,6 @@ class Production(threading.Thread):
 
                     logging.info(f'{bs_subdir.title()} Classification: {len(reader.bs_wafers)} images')
 
-                    if current_bs_model != self.settings['bs_model']:
-                        current_bs_model = self.settings['bs_model']
-                        bs_model = load_trained_model(
-                            subdir=bs_subdir,
-                            model_name=current_bs_model,
-                        )
-
                     bs_predictor = Predictor(
                         img_size=IMG_SIZE,
                         batch_size=BATCH_SIZE,
@@ -209,7 +202,6 @@ class Production(threading.Thread):
                         subdir=bs_subdir,
                         model=bs_model,
                     )
-
                     bs_predictor.load_generator(preprocessing_function=mobilenet_v2.preprocess_input)
                     bs_predictor.predict_imgs(overwrite_results=False)
 
@@ -228,13 +220,6 @@ class Production(threading.Thread):
 
                     logging.info(f'{en_subdir.title()} Classification: {len(reader.en_wafers)} images')
 
-                    if current_en_model != self.settings['en_model']:
-                        current_en_model = self.settings['en_model']
-                        en_model = load_trained_model(
-                            subdir=en_subdir,
-                            model_name=current_en_model,
-                        )
-
                     en_predictor = Predictor(
                         img_size=IMG_SIZE,
                         batch_size=BATCH_SIZE,
@@ -245,7 +230,6 @@ class Production(threading.Thread):
                         subdir=en_subdir,
                         model=en_model,
                     )
-
                     en_predictor.load_generator(preprocessing_function=mobilenet_v2.preprocess_input)
                     en_predictor.predict_imgs(overwrite_results=False)
 
@@ -266,19 +250,10 @@ class Production(threading.Thread):
 
                     logging.info(f'{fs_subdir.title()} IGNORED: {len(reader.fs_wafers)} images')
 
-                    # if current_fs_model != self.settings['fs_model']:
-                    #     current_fs_model = self.settings['fs_model']
-                    #     fs_model = load_trained_model(
-                    #         ...
-                    #     )
-
-                    # logging.info(f'[{fs_subdir.upper()}] Model: {current_fs_model}')
-
                     # fs_predictor = Predictor(
                     #     ...
                     # )
-
-                    # fs_predictor.load_generator()
+                    # fs_predictor.load_generator(...)
                     # fs_predictor.predict_imgs(overwrite_results=False)
 
                     # reader.fs_wafers = reader.edit_kla(reader.fs_wafers, fs_predictor.df['new_defect_code'])
@@ -325,6 +300,11 @@ class Production(threading.Thread):
                 return id
 
     def stop(self) -> None:
+        """Forcefully stops the thread by raising an exception
+
+        Reference: https://www.geeksforgeeks.org/python-different-ways-to-kill-a-thread/
+        """
+
         self.is_running.pack_forget()
         self.e.set()
         thread_id = self.get_id()
@@ -358,7 +338,7 @@ class Training(threading.Thread):
     Based on the number of training_runs, this function will run that number of 
     times and try to create models. If the models pass the training_saving_threshold,
     then it will be saved. However, all details of the runs will be saved in
-    CSV format under the .../ADCS/results/training folder for future reference. 
+    CSV format under the /ADCS/results/training folder for future reference. 
 
     Attributes:
         settings (dict):
@@ -459,6 +439,11 @@ class Training(threading.Thread):
                 return id
 
     def stop(self) -> None:
+        """Forcefully stops the thread by raising an exception
+
+        Reference: https://www.geeksforgeeks.org/python-different-ways-to-kill-a-thread/
+        """
+
         self.is_running.pack_forget()
         thread_id = self.get_id()
         res = ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, ctypes.py_object(SystemExit))

@@ -15,7 +15,7 @@
 # Set adcs_mode to train an F/B/E model based on images found 
 # in the adc_drive_old folder. 
 # Set adcs_submode to BE for back and edge classification, FS for frontside. 
-# BE and FS classification won't happen at the same time since FS AXI scans are very slow 
+# BE and FS classification won't happen at the same time since FS AVI scans are very slow 
 # and FS logic is not implemented yet as well. 
 
 #----------------------------------------------------------#

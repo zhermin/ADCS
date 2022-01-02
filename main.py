@@ -16,6 +16,7 @@ from src.adcs_modes import Production, Training
 #------------------ Queue Logging Handler and Console Output ------------------#
 # By: https://beenje.github.io/blog/posts/logging-to-a-tkinter-scrolledtext-widget
 # Code: https://github.com/beenje/tkinter-logging-text-widget/blob/master/main.py
+# Locally: /ADCS/notes/miscellaneous/tkinter_console_log.py
 
 class QueueHandler(logging.Handler):
     """Class that inherits from Handler to send logging records to a queue
@@ -242,7 +243,7 @@ class SettingsUI:
 
     def __init__(self, frame) -> None:
         self.frame = frame
-        with open('settings.yaml', 'r') as f: self.settings = yaml.safe_load(f)
+        with open('assets/settings.yaml', 'r') as f: self.settings = yaml.safe_load(f)
 
         self.adcs_mode = tk.StringVar()
         self.adcs_mode.set(self.settings['adcs_mode'])
@@ -315,7 +316,7 @@ class SettingsUI:
     def save_settings(self) -> None:
         """Gets the updated settings dictionary and save it back into the settings.yaml file"""
         self.settings = self.load_current_settings()
-        with open('settings.yaml', 'w') as f:
+        with open('assets/settings.yaml', 'w') as f:
             yaml.dump(self.settings, f, default_flow_style=False)
 
 
@@ -435,7 +436,7 @@ def main() -> None:
         level=logging.INFO,
         handlers=[
             logging.FileHandler(
-                filename='debug.log',
+                filename='assets/debug.log',
                 mode='w',
             ),
             QueueHandler(log_queue),
@@ -453,7 +454,7 @@ def main() -> None:
     except KeyboardInterrupt:
         sys.exit('\nSafely shutting down ADCS...')
     except Exception as e:
-        logging.exception('ERROR OCCURRED')
+        logging.exception('ERROR OCCURRED BEFORE TKINTER GUI CAN START')
 
 if __name__ == '__main__':
     main()
