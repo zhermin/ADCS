@@ -1,7 +1,7 @@
 BATCH_SIZE: 8
 CONF_THRESHOLD: 95
-adc_drive_new: C:/Users/ZM/Desktop/ssmc-infrastructure/ADC drive/data/new
-adc_drive_old: C:/Users/ZM/Desktop/ssmc-infrastructure/ADC drive/data/old
+adc_drive_new: D:/Users/sgg92127/Desktop/DATA/new (pls rename)
+adc_drive_old: D:/Users/sgg92127/Desktop/DATA/old (pls rename)
 adcs_mode: PRODUCTION
 bs_defect_mapping:
   aok: 0
@@ -17,7 +17,7 @@ en_defect_mapping:
   aok: 0
   chipping: 189
 en_model: edgenormal_23Dec2021-2004_99.26%.h5
-k_drive: C:/Users/ZM/Desktop/ssmc-infrastructure/K Drive
+k_drive: D:/Users/sgg92127/Desktop/DATA/k drive
 patience: 5
 pause_if_kla: 0
 pause_if_no_kla: 30

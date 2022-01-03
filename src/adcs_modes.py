@@ -82,6 +82,7 @@ class Production(threading.Thread):
         self.user_inputs = user_inputs
         self.e = threading.Event()
         logging.warning('Production Started')
+        logging.info('Loading Models (this might take a while)...')
 
     def run(self) -> None:
         try:
@@ -135,6 +136,7 @@ class Production(threading.Thread):
                 for submode in (bs_subdir, en_subdir, fs_subdir):
                     submode_path = Path.joinpath(adc_drive_old, submode)
                     if submode == 'frontside':
+                        submode_path.mkdir(parents=True, exist_ok=True)
                         break
                     for subdir in ('test', 'trainval', 'unsorted'):
                         subdir_path = Path.joinpath(submode_path, subdir)

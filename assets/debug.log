@@ -1,14 +1,42 @@
-[INFO] 02-Jan-2022 15:16:18 - [Automatic Defect Classification System]
-[INFO] 02-Jan-2022 15:16:18 - // By: Tam Zher Min
-[INFO] 02-Jan-2022 15:16:18 - // User Guide: https://github.com/zhermin/ADCS
-[INFO] 02-Jan-2022 15:16:18 - Click START to begin selected mode
-[WARNING] 02-Jan-2022 15:16:19 - Production Started
-[INFO] 02-Jan-2022 15:16:35 - [BACKSIDE] Model Loaded:
+[INFO] 03-Jan-2022 08:53:50 - [Automatic Defect Classification System]
+[INFO] 03-Jan-2022 08:53:50 - // By: Tam Zher Min
+[INFO] 03-Jan-2022 08:53:50 - // User Guide: https://github.com/zhermin/ADCS
+[INFO] 03-Jan-2022 08:53:50 - Click START to begin selected mode
+[WARNING] 03-Jan-2022 08:53:51 - Production Started
+[INFO] 03-Jan-2022 08:53:56 - [BACKSIDE] Model Loaded:
 backside_22Dec2021-1753_97.15%.h5
-[INFO] 02-Jan-2022 15:16:37 - [EDGENORMAL] Model Loaded:
+[INFO] 03-Jan-2022 08:53:56 - [EDGENORMAL] Model Loaded:
 edgenormal_23Dec2021-2004_99.26%.h5
-[INFO] 02-Jan-2022 15:16:38 - All Models Ready
-[INFO] 02-Jan-2022 15:16:38 - --------------------------------------------------
-[INFO] 02-Jan-2022 15:16:38 - No KLA files found, checking every 30 seconds...
-[WARNING] 02-Jan-2022 15:16:44 - Production Stopped
-[INFO] 02-Jan-2022 15:16:45 - Safely shutting down ADCS...
+[INFO] 03-Jan-2022 08:53:57 - All Models Ready
+[INFO] 03-Jan-2022 08:53:57 - --------------------------------------------------
+[INFO] 03-Jan-2022 08:53:57 - No KLA files found, checking every 30 seconds...
+[INFO] 03-Jan-2022 08:55:57 - --------------------------------------------------
+[INFO] 03-Jan-2022 08:55:57 - KLA File Loaded: CHIPTEST_01.000
+[WARNING] 03-Jan-2022 08:55:57 - Ignoring unsorted CLASSNUMBERS (#175)
+[INFO] 03-Jan-2022 08:55:57 - Succesfully found all images
+[INFO] 03-Jan-2022 08:55:57 - Backside Classification: 72 images
+[INFO] 03-Jan-2022 08:55:59 - Results added to .../backside_pred.csv
+[INFO] 03-Jan-2022 08:55:59 - 73 file(s) copied and moved
+[INFO] 03-Jan-2022 08:55:59 - Edgenormal Classification: 61 images
+[INFO] 03-Jan-2022 08:56:00 - Results added to .../edgenormal_pred.csv
+[INFO] 03-Jan-2022 08:56:00 - 62 file(s) copied and moved
+[INFO] 03-Jan-2022 08:56:00 - 104 file(s) copied and moved
+[INFO] 03-Jan-2022 08:56:00 - CHIPTEST_01.000 completed!
+[INFO] 03-Jan-2022 08:56:00 - Duration: 0.06 mins
+[INFO] 03-Jan-2022 08:56:00 - --------------------------------------------------
+[INFO] 03-Jan-2022 08:56:00 - KLA File Loaded: CHIPTEST_01.001
+[WARNING] 03-Jan-2022 08:56:00 - Ignoring unsorted CLASSNUMBERS (#175)
+[INFO] 03-Jan-2022 08:56:00 - Succesfully found all images
+[INFO] 03-Jan-2022 08:56:00 - Backside Classification: 56 images
+[INFO] 03-Jan-2022 08:56:02 - Results added to .../backside_pred.csv
+[INFO] 03-Jan-2022 08:56:02 - 57 file(s) copied and moved
+[INFO] 03-Jan-2022 08:56:02 - Edgenormal Classification: 65 images
+[INFO] 03-Jan-2022 08:56:03 - Results added to .../edgenormal_pred.csv
+[INFO] 03-Jan-2022 08:56:03 - 66 file(s) copied and moved
+[INFO] 03-Jan-2022 08:56:03 - 98 file(s) copied and moved
+[INFO] 03-Jan-2022 08:56:03 - CHIPTEST_01.001 completed!
+[INFO] 03-Jan-2022 08:56:03 - Duration: 0.04 mins
+[INFO] 03-Jan-2022 08:56:03 - --------------------------------------------------
+[INFO] 03-Jan-2022 08:56:03 - No KLA files found, checking every 30 seconds...
+[WARNING] 03-Jan-2022 08:56:33 - Production Stopped
+[INFO] 03-Jan-2022 08:56:34 - Safely shutting down ADCS...
